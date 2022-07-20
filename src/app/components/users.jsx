@@ -4,7 +4,7 @@ import Pagination from "./pagination";
 import User from "./user";
 import PropTypes from "prop-types";
 
-const Users = ({ users, onDelete, onToggleBookMark }) => {
+const Users = ({ users, ...rest }) => {
     const count = users.length;
     const pageSize = 4;
     const [currentPage, setCurrentPage] = useState(1);
@@ -32,12 +32,7 @@ const Users = ({ users, onDelete, onToggleBookMark }) => {
                     </thead>
                     <tbody>
                         {userCrop.map((user) => (
-                            <User
-                                key={user._id}
-                                data={user}
-                                onDelete={onDelete}
-                                onToggleBookMark={onToggleBookMark}
-                            />
+                            <User key={user._id} data={user} {...rest} />
                         ))}
                     </tbody>
                 </table>
@@ -53,9 +48,7 @@ const Users = ({ users, onDelete, onToggleBookMark }) => {
 };
 
 Users.propTypes = {
-    users: PropTypes.array.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onToggleBookMark: PropTypes.func.isRequired
+    users: PropTypes.array.isRequired
 };
 
 export default Users;

@@ -5,7 +5,6 @@ import api from "./api";
 
 const App = () => {
     const [users, setUsers] = useState(api.users.fetchAll());
-    const [status, setStatus] = useState(false);
 
     const handleDelete = (userId) => {
         console.log("userId", userId);
@@ -13,16 +12,14 @@ const App = () => {
     };
 
     const handleToggleBookMark = (id) => {
-        const updateUsers = users.map((user) => {
-            if (user._id === id) {
-                user.bookmark = !status;
-            }
-
-            return user;
-        });
-
-        setUsers(updateUsers);
-        setStatus(!status);
+        setUsers(
+            users.map((user) => {
+                if (user._id === id) {
+                    return { ...user, bookmark: !user.bookmark };
+                }
+                return user;
+            })
+        );
     };
 
     return (

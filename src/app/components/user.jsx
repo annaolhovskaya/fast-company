@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const User = ({ data, onDelete, onToggleBookMark }) => {
     return (
         <>
-            <tr key={data._id}>
+            <tr>
                 <td>{data.name}</td>
                 <td>
                     {data.qualities.map((qualitie) => (
