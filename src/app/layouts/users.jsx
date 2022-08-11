@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { paginate } from "../utils/paginate";
-import Pagination from "./pagination";
-import UserTable from "./usersTable";
-import GroupList from "./groupList";
-import SearchStatus from "./searchStatus";
+import Pagination from "../components/pagination";
+import UserTable from "../components/usersTable";
+import GroupList from "../components/groupList";
+import SearchStatus from "../components/searchStatus";
 import api from "../api";
 import _ from "lodash";
 import PropTypes from "prop-types";
@@ -22,6 +22,14 @@ const Users = () => {
         api.users.fetchAll().then((data) => setUsers(data));
     }, []);
 
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => setProfessions(data));
+    }, []);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [selectedProf]);
+
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
     };
@@ -36,14 +44,6 @@ const Users = () => {
             })
         );
     };
-
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data));
-    }, []);
-
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [selectedProf]);
 
     const handleProfessionSelect = (items) => {
         setSelectedProf(items);
@@ -118,7 +118,7 @@ const Users = () => {
         );
     }
 
-    return "loading...";
+    return "Loading...";
 };
 
 Users.propTypes = {

@@ -13,10 +13,14 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
         }
     };
 
-    const getIconSortClasses = () => {
-        let classes = "bi bi-caret-";
-        classes += selectedSort.order === "asc" ? "up-fill" : "down-fill";
-        return classes;
+    const renderSortArrow = (selectedSort, currentPath) => {
+        if (selectedSort.path === currentPath) {
+            if (selectedSort.order === "asc") {
+                return <i className="bi bi-caret-up-fill"></i>;
+            }
+            return <i className="bi bi-caret-down-fill"></i>;
+        }
+        return null;
     };
 
     return (
@@ -34,9 +38,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         scope="col"
                     >
                         {columns[column].name}
-                        {selectedSort.path === columns[column].path && (
-                            <i className={getIconSortClasses()}></i>
-                        )}
+                        {renderSortArrow(selectedSort, columns[column].path)}
                     </th>
                 ))}
             </tr>
