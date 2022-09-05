@@ -27,6 +27,7 @@ const RegisterForm = () => {
             }
         }
     };
+
     const getQualities = (elements) => {
         const qualitiesArray = [];
         for (const elem of elements) {
@@ -60,12 +61,14 @@ const RegisterForm = () => {
             setQualities(qualitiesList);
         });
     }, []);
+
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
     };
+
     const validatorConfig = {
         email: {
             isRequired: {
@@ -102,14 +105,17 @@ const RegisterForm = () => {
             }
         }
     };
+
     useEffect(() => {
         validate();
     }, [data]);
+
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
+
     const isValid = Object.keys(errors).length === 0;
 
     const handleSubmit = (e) => {
@@ -123,6 +129,7 @@ const RegisterForm = () => {
             qualities: getQualities(qualities)
         });
     };
+
     return (
         <form onSubmit={handleSubmit}>
             <TextField

@@ -16,9 +16,11 @@ const UsersListPage = () => {
     const pageSize = 8;
 
     const [users, setUsers] = useState();
+
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
     }, []);
+
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
     };
@@ -44,6 +46,7 @@ const UsersListPage = () => {
         if (searchQuery !== "") setSearchQuery("");
         setSelectedProf(item);
     };
+
     const handleSearchQuery = ({ target }) => {
         setSelectedProf(undefined);
         setSearchQuery(target.value);
@@ -52,6 +55,7 @@ const UsersListPage = () => {
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
+
     const handleSort = (item) => {
         setSortBy(item);
     };
@@ -133,6 +137,7 @@ const UsersListPage = () => {
     }
     return "loading...";
 };
+
 UsersListPage.propTypes = {
     users: PropTypes.array
 };

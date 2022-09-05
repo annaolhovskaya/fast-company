@@ -13,8 +13,6 @@ const Users = () => {
     }
 
     return userId ? <UserPage userId={userId} /> : <UsersListPage />;
-
-    // return <>{userId ? <UserPage userId={userId} /> : <UsersListPage />}</>;
 };
 
 export default Users;

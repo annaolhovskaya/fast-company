@@ -5,16 +5,11 @@ import Qualities from "../../ui/qualities";
 import PropTypes from "prop-types";
 
 const UserPage = ({ userId }) => {
-    // const history = useHistory();
     const [user, setUser] = useState();
 
     useEffect(() => {
         api.users.getById(userId).then((data) => setUser(data));
     }, []);
-
-    // const handleClick = () => {
-    //     history.push("/users");
-    // };
 
     if (user) {
         return (
@@ -24,16 +19,9 @@ const UserPage = ({ userId }) => {
                 <Qualities qualities={user.qualities} />
                 <p>Количество встреч: {user.completedMeetings}</p>
                 <h2>Оценка: {user.rate}</h2>
-                {/* <button
-                // onClick={() => {
-                //     handleClick();
-                // }}
-                > */}
                 <Link to={`/users/${userId}/edit`}>
                     <button type="button">Изменить</button>
                 </Link>
-
-                {/* </button> */}
             </>
         );
     }
