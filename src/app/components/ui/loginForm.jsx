@@ -9,7 +9,6 @@ const LoginForm = () => {
         password: "",
         stayOn: false
     });
-
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
