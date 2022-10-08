@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
-import { validator } from "../../utils/validator";
+import { useAuth } from "../../hooks/useAuth";
+import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
+    const history = useHistory();
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -11,10 +14,14 @@ const LoginForm = () => {
     });
     const [errors, setErrors] = useState({});
 
-    useEffect(() => {
-        validate();
-    }, [data]);
+    const { logIn } = useAuth();
 
+    const handleChange = (target) => {
+        setData((prevState) => ({
+            ...prevState,
+            [target.name]: target.value
+        }));
+    };
     const validatorConfig = {
         email: {
             isRequired: {
@@ -35,35 +42,32 @@ const LoginForm = () => {
                 message: "Пароль должен содержать хотя бы одно число"
             },
             min: {
-                message: "Пароль должен составлять минимум 8 символов",
+                message: "Пароль должен состоять минимум из 8 символов",
                 value: 8
             }
         }
     };
-
+    useEffect(() => {
+        validate();
+    }, [data]);
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
-
         return Object.keys(errors).length === 0;
     };
-
     const isValid = Object.keys(errors).length === 0;
 
-    const handleChange = (target) => {
-        setData((prevState) => ({
-            ...prevState,
-            [target.name]: target.value
-        }));
-    };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        console.log(data);
+        try {
+            await logIn(data);
+            history.push("/");
+        } catch (error) {
+            setErrors(error);
+        }
     };
-
     return (
         <form onSubmit={handleSubmit}>
             <TextField
@@ -89,9 +93,9 @@ const LoginForm = () => {
                 Оставаться в системе
             </CheckBoxField>
             <button
+                className="btn btn-primary w-100 mx-auto"
                 type="submit"
                 disabled={!isValid}
-                className="btn btn-primary w-100 mx-auto"
             >
                 Submit
             </button>

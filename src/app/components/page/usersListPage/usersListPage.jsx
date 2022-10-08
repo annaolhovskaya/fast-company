@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { paginate } from "../../../utils/paginate";
 import Pagination from "../../common/pagination";
+import api from "../../../api";
 import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
-import api from "../../../api";
-import { paginate } from "../../../utils/paginate";
 import _ from "lodash";
-import PropTypes from "prop-types";
 import { useUser } from "../../../hooks/useUsers";
-
 const UsersListPage = () => {
+    const { users } = useUser();
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [searchQuery, setSearchQuery] = useState("");
@@ -17,13 +17,10 @@ const UsersListPage = () => {
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
 
-    const { users } = useUser();
-
     const handleDelete = (userId) => {
         // setUsers(users.filter((user) => user._id !== userId));
         console.log(userId);
     };
-
     const handleToggleBookMark = (id) => {
         const newArray = users.map((user) => {
             if (user._id === id) {
@@ -47,7 +44,6 @@ const UsersListPage = () => {
         if (searchQuery !== "") setSearchQuery("");
         setSelectedProf(item);
     };
-
     const handleSearchQuery = ({ target }) => {
         setSelectedProf(undefined);
         setSearchQuery(target.value);
@@ -56,7 +52,6 @@ const UsersListPage = () => {
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
-
     const handleSort = (item) => {
         setSortBy(item);
     };
@@ -138,7 +133,6 @@ const UsersListPage = () => {
     }
     return "loading...";
 };
-
 UsersListPage.propTypes = {
     users: PropTypes.array
 };

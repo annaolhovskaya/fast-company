@@ -7,9 +7,8 @@ const CommentsList = ({ comments, onRemove }) => {
         <Comment key={comment._id} {...comment} onRemove={onRemove} />
     ));
 };
-
 CommentsList.propTypes = {
-    comments: PropTypes.array,
+    comment: PropTypes.array,
     onRemove: PropTypes.func
 };
 

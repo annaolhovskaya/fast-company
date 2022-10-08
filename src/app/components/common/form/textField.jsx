@@ -7,15 +7,12 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
     const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
     };
-
     const getInputClasses = () => {
         return "form-control" + (error ? " is-invalid" : "");
     };
-
     const toggleShowPassword = () => {
         setShowPassword((prevState) => !prevState);
     };
-
     return (
         <div className="mb-4">
             <label htmlFor={name}>{label}</label>

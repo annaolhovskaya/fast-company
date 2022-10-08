@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { validator } from "../../../utils/validator";
+import api from "../../../api";
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
-import BackHistoryButton from "../../common/backHistoryButton";
-import { validator } from "../../../utils/validator";
-import api from "../../../api";
+import BackHistoryButton from "../../common/backButton";
 
 const EditUserPage = () => {
     const { userId } = useParams();
     const history = useHistory();
-
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState({
         name: "",
@@ -23,7 +22,6 @@ const EditUserPage = () => {
     const [professions, setProfession] = useState([]);
     const [qualities, setQualities] = useState([]);
     const [errors, setErrors] = useState({});
-
     const getProfessionById = (id) => {
         for (const prof of professions) {
             if (prof.value === id) {
@@ -31,7 +29,6 @@ const EditUserPage = () => {
             }
         }
     };
-
     const getQualities = (elements) => {
         const qualitiesArray = [];
         for (const elem of elements) {
@@ -47,7 +44,6 @@ const EditUserPage = () => {
         }
         return qualitiesArray;
     };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
@@ -66,11 +62,9 @@ const EditUserPage = () => {
             qualities: getQualities(qualities)
         });
     };
-
     const transformData = (data) => {
         return data.map((qual) => ({ label: qual.name, value: qual._id }));
     };
-
     useEffect(() => {
         setIsLoading(true);
         api.users.getById(userId).then(({ profession, qualities, ...data }) =>
@@ -97,7 +91,6 @@ const EditUserPage = () => {
             setQualities(qualitiesList);
         });
     }, []);
-
     useEffect(() => {
         if (data._id) setIsLoading(false);
     }, [data]);
@@ -117,26 +110,21 @@ const EditUserPage = () => {
             }
         }
     };
-
     useEffect(() => {
         validate();
     }, [data]);
-
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
     };
-
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
-
     const isValid = Object.keys(errors).length === 0;
-
     return (
         <div className="container mt-5">
             <BackHistoryButton />

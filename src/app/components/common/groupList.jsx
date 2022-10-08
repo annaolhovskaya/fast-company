@@ -27,7 +27,6 @@ const GroupList = ({
             </ul>
         );
     }
-
     return (
         <ul className="list-group">
             {items.map((item) => (
@@ -46,12 +45,10 @@ const GroupList = ({
         </ul>
     );
 };
-
 GroupList.defaultProps = {
     valueProperty: "_id",
     contentProperty: "name"
 };
-
 GroupList.propTypes = {
     items: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     valueProperty: PropTypes.string.isRequired,

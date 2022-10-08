@@ -1,17 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import BookMark from "../common/bookmark";
-import Table from "../common/table";
 import PropTypes from "prop-types";
+
+import BookMark from "../common/bookmark";
+import Qualities from "./qualities";
+import Table from "../common/table";
+import { Link } from "react-router-dom";
 import Profession from "./profession";
-import QualitiesList from "./qualities/qualitiesList";
 
 const UserTable = ({
     users,
     onSort,
     selectedSort,
     onToggleBookMark,
-    onDelete
+    onDelete,
+    ...rest
 }) => {
     const columns = {
         name: {
@@ -23,9 +25,7 @@ const UserTable = ({
         },
         qualities: {
             name: "Качества",
-            component: (user) => (
-                <QualitiesList qualityIdArray={user.qualities} />
-            )
+            component: (user) => <Qualities qualities={user.qualities} />
         },
         professions: {
             name: "Профессия",
@@ -57,7 +57,6 @@ const UserTable = ({
             )
         }
     };
-
     return (
         <Table
             onSort={onSort}

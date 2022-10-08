@@ -1,6 +1,6 @@
 import React from "react";
-import _ from "lodash";
 import PropTypes from "prop-types";
+import _ from "lodash";
 
 const TableBody = ({ data, columns }) => {
     const renderContent = (item, column) => {
@@ -11,10 +11,8 @@ const TableBody = ({ data, columns }) => {
             }
             return component;
         }
-
         return _.get(item, columns[column].path);
     };
-
     return (
         <tbody>
             {data.map((item) => (
