@@ -8,4 +8,5 @@ const professionService = {
         return data;
     }
 };
+
 export default professionService;

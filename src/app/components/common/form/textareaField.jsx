@@ -5,6 +5,7 @@ const TextAreaField = ({ label, name, value, onChange, error }) => {
     const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
     };
+
     const getInputClasses = () => {
         return "form-control" + (error ? " is-invalid" : "");
     };
@@ -26,9 +27,11 @@ const TextAreaField = ({ label, name, value, onChange, error }) => {
         </div>
     );
 };
+
 TextAreaField.defaultProps = {
     type: "text"
 };
+
 TextAreaField.propTypes = {
     label: PropTypes.string,
     type: PropTypes.string,
