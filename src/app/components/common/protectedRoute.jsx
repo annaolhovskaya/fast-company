@@ -10,21 +10,6 @@ function ProtectedRoute({ component: Component, children, ...rest }) {
         <Route
             {...rest}
             render={(props) => {
-                const { userId, edit } = props.match.params;
-
-                if (edit && userId !== currentUser._id) {
-                    return (
-                        <Redirect
-                            to={{
-                                pathname: `/users/${currentUser._id}/edit`,
-                                state: {
-                                    from: props.location
-                                }
-                            }}
-                        />
-                    );
-                }
-
                 if (!currentUser) {
                     return (
                         <Redirect
