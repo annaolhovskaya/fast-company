@@ -60,7 +60,7 @@ const usersSlice = createSlice({
         },
         userUpdated: (state, action) => {
             const elementIndex = state.entities.findIndex(
-                (el) => el.id === action.payload._id
+                (el) => el._id === action.payload._id
             );
             state.entities[elementIndex] = {
                 ...state.entities[elementIndex],
