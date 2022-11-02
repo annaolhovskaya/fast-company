@@ -58,6 +58,6 @@ export const getProfessionById = (professionId) => (state) => {
     if (state.professions.entities) {
         return state.professions.entities.find((p) => p._id === professionId);
     }
-    return [];
+    return null;
 };
 export default professionsReducer;
