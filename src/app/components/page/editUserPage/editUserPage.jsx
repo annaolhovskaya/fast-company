@@ -15,19 +15,14 @@ import {
     getProfessions,
     getProfessionsLoadingStatus
 } from "../../../store/professions";
-import {
-    updateUserData,
-    getCurrentUserData,
-    getUserUpdate
-} from "../../../store/users";
+import { updateUserData, getCurrentUserData } from "../../../store/users";
 
 const EditUserPage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
-    const userUpdate = useSelector(getUserUpdate());
-    console.log(userUpdate);
+
     const currentUser = useSelector(getCurrentUserData());
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
