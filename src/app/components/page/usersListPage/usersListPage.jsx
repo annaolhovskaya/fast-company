@@ -24,17 +24,17 @@ const UsersListPage = () => {
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
 
-    // const handleDelete = (userId) => {
-    //     setUsers(users.filter((user) => user._id !== userId));
-    //     console.log(userId);
-    // };
+    const handleDelete = (userId) => {
+        // setUsers(users.filter((user) => user._id !== userId));
+        console.log(userId);
+    };
     const handleToggleBookMark = (id) => {
-        const newArray = users.map((user) => {
-            if (user._id === id) {
-                return { ...user, bookmark: !user.bookmark };
-            }
-            return user;
-        });
+        // const newArray = users.map((user) => {
+        //     if (user._id === id) {
+        //         return { ...user, bookmark: !user.bookmark };
+        //     }
+        //     return user;
+        // });
     };
 
     useEffect(() => {

@@ -59,7 +59,13 @@ const usersSlice = createSlice({
             state.dataLoaded = false;
         },
         userUpdated: (state, action) => {
-            state.entities = action.payload;
+            const elementIndex = state.entities.findIndex(
+                (el) => el.id === action.payload._id
+            );
+            state.entities[elementIndex] = {
+                ...state.entities[elementIndex],
+                ...action.payload
+            };
         }
     }
 });
@@ -143,15 +149,17 @@ function createUser(payload) {
     };
 }
 
-export const updateUserData = (payload) => async (dispatch) => {
-    dispatch(userUpdateRequested());
-    try {
-        const { content } = await userService.update(payload);
-        dispatch(userUpdated(content));
-    } catch (error) {
-        dispatch(updateUserFailed(error.message));
-    }
-};
+export const updateUserData =
+    ({ payload }) =>
+    async (dispatch) => {
+        dispatch(userUpdateRequested());
+        try {
+            const { content } = await userService.update(payload);
+            dispatch(userUpdated(content));
+        } catch (error) {
+            dispatch(updateUserFailed(error.message));
+        }
+    };
 
 export const loadUsersList = () => async (dispatch) => {
     dispatch(usersRequested());

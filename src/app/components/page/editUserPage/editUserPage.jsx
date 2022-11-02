@@ -27,6 +27,7 @@ const EditUserPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
     const userUpdate = useSelector(getUserUpdate());
+    console.log(userUpdate);
     const currentUser = useSelector(getCurrentUserData());
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
@@ -81,11 +82,14 @@ const EditUserPage = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
+        const newArray = {
+            ...data,
+            qualities: data.qualities.map((q) => q.value)
+        };
 
         dispatch(
             updateUserData({
-                ...data,
-                qualities: data.qualities.map((q) => q.value)
+                payload: newArray
             })
         );
         history.push(`/users/${currentUser._id}`);
