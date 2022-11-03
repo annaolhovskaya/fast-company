@@ -60,9 +60,9 @@ const usersSlice = createSlice({
             state.dataLoaded = false;
         },
         userUpdated: (state, action) => {
-            const elementIndex = state.entities.findIndex(
-                (el) => el._id === action.payload._id
-            );
+            const elementIndex = state.entities.findIndex((el) => {
+                return el._id === action.payload._id;
+            });
             state.entities[elementIndex] = {
                 ...state.entities[elementIndex],
                 ...action.payload
@@ -104,26 +104,12 @@ export const login =
             history.push(redirect);
         } catch (error) {
             const { code, message } = error.response.data.error;
-            console.log({ code, message });
             if (code === 400) {
                 const errorMessage = generateAuthError(message);
                 dispatch(authRequestFailed(errorMessage));
             } else {
                 dispatch(authRequestFailed(error.message));
             }
-        }
-    };
-
-export const updateUserData =
-    ({ payload, redirect }) =>
-    async (dispatch) => {
-        dispatch(userUpdateRequested());
-        try {
-            const { content } = await userService.update(payload);
-            dispatch(userUpdated(content));
-            history.push(redirect);
-        } catch (error) {
-            dispatch(updateUserFailed(error.message));
         }
     };
 
@@ -182,6 +168,19 @@ export const loadUsersList = () => async (dispatch) => {
         dispatch(usersRequestFailed(error.message));
     }
 };
+
+export const updateUserData =
+    ({ payload, redirect }) =>
+    async (dispatch) => {
+        dispatch(userUpdateRequested());
+        try {
+            const { content } = await userService.update(payload);
+            dispatch(userUpdated(content));
+            history.push(redirect);
+        } catch (error) {
+            dispatch(updateUserFailed(error.message));
+        }
+    };
 
 export const getUsersList = () => (state) => state.users.entities;
 export const getCurrentUserData = () => (state) => {

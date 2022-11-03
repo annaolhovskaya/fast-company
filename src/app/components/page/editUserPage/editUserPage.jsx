@@ -90,7 +90,6 @@ const EditUserPage = () => {
                 redirect
             })
         );
-        // history.push(`/users/${currentUser._id}`);
     };
 
     const validatorConfig = {
