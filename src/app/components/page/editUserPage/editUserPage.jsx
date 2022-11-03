@@ -77,17 +77,20 @@ const EditUserPage = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
+        const redirect = history.location.state
+            ? history.location.state.from.pathname
+            : `/users/${currentUser._id}`;
         const newArray = {
             ...data,
             qualities: data.qualities.map((q) => q.value)
         };
-
         dispatch(
             updateUserData({
-                payload: newArray
+                payload: newArray,
+                redirect
             })
         );
-        history.push(`/users/${currentUser._id}`);
+        // history.push(`/users/${currentUser._id}`);
     };
 
     const validatorConfig = {

@@ -4,6 +4,7 @@ import localStorageService from "../services/localStorage.service";
 import userService from "../services/user.service";
 import { getRandomInt } from "../utils/getRandomInt";
 import history from "../utils/history";
+import { generateAuthError } from "../utils/generateAuthError";
 
 const initialState = localStorageService.getAccessToken()
     ? {
@@ -66,6 +67,9 @@ const usersSlice = createSlice({
                 ...state.entities[elementIndex],
                 ...action.payload
             };
+        },
+        authRequested: (state) => {
+            state.error = null;
         }
     }
 });
@@ -99,7 +103,27 @@ export const login =
             localStorageService.setTokens(data);
             history.push(redirect);
         } catch (error) {
-            dispatch(authRequestFailed(error.message));
+            const { code, message } = error.response.data.error;
+            console.log({ code, message });
+            if (code === 400) {
+                const errorMessage = generateAuthError(message);
+                dispatch(authRequestFailed(errorMessage));
+            } else {
+                dispatch(authRequestFailed(error.message));
+            }
+        }
+    };
+
+export const updateUserData =
+    ({ payload, redirect }) =>
+    async (dispatch) => {
+        dispatch(userUpdateRequested());
+        try {
+            const { content } = await userService.update(payload);
+            dispatch(userUpdated(content));
+            history.push(redirect);
+        } catch (error) {
+            dispatch(updateUserFailed(error.message));
         }
     };
 
@@ -149,18 +173,6 @@ function createUser(payload) {
     };
 }
 
-export const updateUserData =
-    ({ payload }) =>
-    async (dispatch) => {
-        dispatch(userUpdateRequested());
-        try {
-            const { content } = await userService.update(payload);
-            dispatch(userUpdated(content));
-        } catch (error) {
-            dispatch(updateUserFailed(error.message));
-        }
-    };
-
 export const loadUsersList = () => async (dispatch) => {
     dispatch(usersRequested());
     try {
@@ -188,5 +200,6 @@ export const getIsLoggedIn = () => (state) => state.users.isLoggedIn;
 export const getDataStatus = () => (state) => state.users.dataLoaded;
 export const getUsersLoadingStatus = () => (state) => state.users.isLoading;
 export const getCurrentUserId = () => (state) => state.users.auth.userId;
+export const getAuthErrors = () => (state) => state.users.error;
 
 export default usersReducer;
