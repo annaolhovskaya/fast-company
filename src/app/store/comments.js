@@ -27,9 +27,10 @@ const commentsSlice = createSlice({
             state.entities.push(action.payload);
         },
         commentRemoved: (state, action) => {
-            state.entities = state.entities.filter(
-                (el) => el._id !== action.payload._id
-            );
+            state.entities = state.entities.filter((el) => {
+                console.log("action.payload._id", action.payload._id);
+                return el._id !== action.payload._id;
+            });
         }
     }
 });
